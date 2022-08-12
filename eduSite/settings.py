@@ -139,7 +139,7 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'chachukhay@gmail.com'
-EMAIL_HOST_PASSWORD = 'fustesutlypxlilo'
+EMAIL_HOST_PASSWORD = 'needtochange'
 EMAIL_PORT = 587
 
 STATIC_URL = '/static/'
