@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="{% url 'friends:my_friend_list' user.username%}">My friends</a>
+<a href="{% url 'friends:my_sent_request' user.username%}">Sent requests</a>
+    {% if my_friend_request %}
+        {% for friend in my_friend_request %}
+            <div>
+                <img src="{{ friend.from_user.profile.profile_pic.url }}" height=100 width=100>
+                <div> {{ friend.from_user }} </div>
+                <div> {{ friend.from_user.first_name }} </div>
+                <form method="POST" action="{% url 'friends:decline_friend_request' user.username friend.id%}">
+                    {% csrf_token %}
+                    <input type="submit" value="decline">
+                </form>
+                <form method="POST" action="{% url 'friends:accept_friend_request' user.username friend.id%}">
+                    {% csrf_token %}
+                    <input type="submit" value="accept">
+                </form>
+
+            </div>
+        {% endfor %}
+    {% else %}
+        You don't have any friend request
+    {% endif %}
+<br>
+
+{% endblock%}

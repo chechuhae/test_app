@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <a href="{% url 'friends:my_friend_request' user.username%}">My requests</a>
+    <a href="{% url 'friends:my_sent_request' user.username%}">Sent requests</a>
+    {% if my_friend_list %}
+        {% for friend in my_friend_list %}
+            <div>
+                <img src="{{ friend.friend.profile.profile_pic.url }}" width=100>
+
+                <a href="{% url 'account:profile' friend.friend%}">{{ friend.friend }} {{ friend.user.first_name }} </a>
+
+            </div>
+            <form method="POST" action="{% url 'friends:delete_friend' user.username friend.friend.id%}">
+                {% csrf_token %}
+                <input type="submit" value="delete">
+            </form>
+        {% endfor %}
+    {% else %}
+        You don't have any friend
+    {% endif %}
+    <br>
+</div>
+{% endblock%}

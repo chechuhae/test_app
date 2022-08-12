@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link href="{% static 'css/stylesheets.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <div  id="alert_messages">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <div {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </div>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div id="left_panel">
+            <div id="left_block">
+            <a id="left_to_main" href="{% url 'testApp:home' %}">To main</a>
+            {% if user.is_authenticated %}
+                <a id="left_profile" href="{% url 'account:profile' user.username %}">My profile</a>
+                <a id="left_messages" href="{% url 'communication:my_messages' user.username %}">My messages</a>
+                <a id="left_friends"  href="{% url 'friends:my_friend_list' user.username%}">My friends</a>
+            {% else %}
+                <a id="left_login" href="{% url 'account:login' %}">Log in</a>
+                <a id="left_registration" href="{% url 'account:register' %}">Sign up</a>
+            {% endif %}
+            <a id="left_user_search" href="{% url 'friends:user_search' %}">User search</a>
+            {% if user.is_authenticated %}
+                <a id="left_logout" href="{% url 'account:logout' %}">Logout</a>
+            {% endif %}
+            </div>
+        </div>
+        <div id="right_panel">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

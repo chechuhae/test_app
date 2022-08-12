@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>message to {{ friend }}</h1>
+    <form action="." method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Send"></p>
+    </form>
+{% endblock%}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    {% if text %}
+        <h1 face="Arial"> {{text}} </h1>
+    {% endif %}
+    {% if popular %}
+        <p>The most popular questions</p>
+        {% for question in popular %}
+            <ul>
+                <li>
+                    <a href="{% url 'testApp:detail' question.question_number %}">
+                        {{ question.question_text }}
+                    </a>
+                    -- number of votes {{ question.sum_of_votes }}
+                </li>
+            </ul>
+        {% endfor %}
+    {% endif %}
+    <p>Five latest questions</p>
+    {% if latest_question_list %}
+        <ul>
+        {% for question in latest_question_list %}
+            <li><a href="{% url 'testApp:detail' question.id %}">{{ question.question_text }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+{% endblock%}

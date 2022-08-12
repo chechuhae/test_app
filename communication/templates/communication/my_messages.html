@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 id="header_dialogues">Your dialogues</h1>
+    {% if my_dialogues %}
+        <table id="my_dialogues">
+            {% for dialogue in my_dialogues %}
+                {% if user == dialogue.from_user %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'account:profile' dialogue.to_user %}">
+                                <img src="{{ dialogue.to_user.profile.profile_pic.url }}" width=100>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'account:profile' dialogue.to_user %}">
+                                {{ dialogue.to_user }}
+                            </a>
+                            <br>
+                            {{ dialogue.date_of_message }}
+                            <br>
+                            {{ dialogue.time_of_message }}
+                        </td>
+                        <td >
+                            <a id="td_to_user" href="{% url 'communication:my_dialogue' dialogue.to_user.id %}">
+                                    {{ dialogue.direct_message }}
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'account:profile' dialogue.to_user %}">
+                                <img src="{{ dialogue.from_user.profile.profile_pic.url }}" width=100>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'account:profile' dialogue.to_user %}">
+                                {{ dialogue.from_user }}
+                            </a>
+                            <br>
+                            {{ dialogue.date_of_message }}
+                            <br>
+                            {{ dialogue.time_of_message }}
+                        </td>
+                        <td >
+                            <a id="td_from_user" href="{% url 'communication:my_dialogue' dialogue.to_user.id %}">
+
+                                    {{ dialogue.direct_message }}
+
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock%}

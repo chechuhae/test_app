@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <table>
+        <tr>
+            <td width=100 height=150>
+            <img src="{{ profile_profile.profile_pic.url }}" width=100 height="auto">
+            </td>
+            <td> {{ user_profile.first_name }} {{ user_profile.last_name }} </td>
+        </tr>
+        <tr>
+            <td>
+                {% if friend %}
+                    <a id="message_friend" href="{% url 'communication:my_dialogue' user_profile.pk %}">Send message</a>
+                    <form id="delete_friend" method="POST" action="{% url 'friends:delete_friend' user.username user_profile.pk%}">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete friend">
+                    </form>
+                {% elif user == user_profile%}
+
+                    <a id="edit_profile" href="{% url 'account:creation' %}">Edit profile</a>
+                    <a id="change_password" href="{% url 'account:password_change' user.username%}">My password</a>
+                    <a id="my_polls" href="{% url 'testApp:my_questions' user.username%}">My polls</a>
+                {% else %}
+                    <form method="POST" action="{% url 'friends:send_friend_request' user.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Add">
+                    </form>
+                {% endif %}
+            </td>
+            <td>
+                {{ user_profile.username }}
+                <br>
+                {{ user_profile.email }}
+                <br>
+                {{ profile_profile.date_of_birth }}
+                <br>
+                {{ profile_profile.town }}
+                <br>
+                {{ profile_profile.age }}
+            </td>
+        </tr>
+    </table>
+{% endblock%}
+

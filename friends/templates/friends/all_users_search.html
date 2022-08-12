@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <br>
+    <form action="." method="get" enctype="multipart/form-data">
+        <input type="text" placeholder="Найти пользователя" class="input form-control" name="search_param">
+        {% csrf_token %}
+        <p><input type="submit" value="Find" ></p>
+    </form>
+    {% if five_last_user_list %}
+        {% for user1 in five_last_user_list %}
+            <br>
+            <img src="{{ user1.profile.profile_pic.url }}" width=100>
+            <a href="{% url 'account:profile' user.username%}">{{ user1.first_name }} {{ user1.last_name}}</a>
+            <div> {{ user1.profile.town }} </div>
+                {% if user1 in list_of_friends %}
+                    You are already friends
+                {% elif user1 in list_of_requests %}
+                    Request was sent
+                {% else %}
+                    <form method="POST" action="{% url 'friends:send_friend_request' user1.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Add">
+                    </form>
+                {% endif %}
+            <br>
+        {% endfor %}
+    {% else %}
+    Not found
+    {% endif %}
+{% endblock%}

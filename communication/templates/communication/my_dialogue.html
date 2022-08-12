@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div id="message_panel">
+    <div id="message_scroll">
+            {% if my_dialogue %}
+                {% for message in my_dialogue %}
+                    {% if user == message.from_user %}
+                        <h6 id="sent_message" align="left" >
+                            {{ message.direct_message }}
+                            <small id="message_time_1">
+                                {{ message.time_of_message|time:"H:i:s" }}
+                            </small>
+                        </h6>
+                    {% else %}
+                        <h6 id="inbox_message" align="left">
+                            {{ message.direct_message }}
+                            <small id="message_time_2">
+                                {{ message.time_of_message|time:"H:i:s" }}
+                            </small>
+                        </h6>
+                    {% endif%}
+                {% endfor %}
+            {% else %}
+                Your dialogue is empty
+            {% endif %}
+    </div>
+    <div id="message_send_form">
+        <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+        <script> message_scroll() </script>
+        <form id="message_form" action="." method="POST">
+        {{ dialogue_message_form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="Send">
+    </form>
+    </div>
+</div>
+{% endblock%}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="{% url 'friends:my_friend_list' user.username%}">My friends</a>
+<a href="{% url 'friends:my_friend_request' user.username%}">My requests</a>
+    {% if my_sent_request %}
+        {% for friend in my_sent_request %}
+            <div>
+                <img src="{{ friend.to_user.profile.profile_pic.url }}" height=100 width=100>
+                <div> {{ friend.to_user }} </div>
+                <div> {{ friend.to_user.first_name }} </div>
+                <form method="POST" action="{% url 'friends:decline_friend_request' user.username friend.id%}">
+                    {% csrf_token %}
+                    <input type="submit" value="cancel">
+                </form>
+            </div>
+        {% endfor %}
+    {% else %}
+        You didn't send any friend request
+    {% endif %}
+<br>
+
+{% endblock%}

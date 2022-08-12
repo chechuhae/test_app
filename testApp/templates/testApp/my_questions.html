@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <a href="{% url 'testApp:add_question' user.username%}">Create new question</a>
+    <br>
+    {% if my_questions_list %}
+        {% for question in my_questions_list %}
+            <h5>
+                {{ question.question_text }}
+                <a href="{% url 'testApp:update_question' user.username question.id%}">edit</a>
+                <a href="{% url 'testApp:delete_question' user.username question.id%}">delete</a>
+                <a href="{% url 'testApp:add_choice' user.username question.id %}">new choice</a>
+            </h5>
+            <div id="options">
+                {% for choice in choices %}
+
+                    {% if choice.question == question %}
+                        <h6>
+                            Answer '{{ choice.choice_text}}' count of votes - {{ choice.votes }}
+                            <a href="{% url 'testApp:update_choice' user.username choice.id%}">edit</a>
+                            <a href="{% url 'testApp:delete_choice' user.username choice.id%}">delete</a>
+                        </h6>
+                    {% endif%}
+
+            {% endfor %}
+            </div>
+
+        {% endfor %}
+        </div>
+{% endif %}
+{% endblock%}
